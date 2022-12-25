@@ -16,8 +16,9 @@ class ConvolutionBlock(nn.Module):
         self.batchNorm = nn.BatchNorm2d(num_features=out_features, eps=1e-5, momentum=.1)
 
     def forward(self, x):
-        batchNormConv = self.batchNorm(self.conv(x))
-        return F.relu(batchNormConv)
+        x = self.conv(x)
+        x = self.batchNorm(x)
+        return F.relu(x)
 
 
 class ResidualBlock(nn.Module):
@@ -60,7 +61,7 @@ class BetaGobangCnnExtractor(BaseFeaturesExtractor):
         super(BetaGobangCnnExtractor, self).__init__(observation_space, features_dim)
 
         self.boardLength = 9#boardLength
-        self.num_feature = 7#num_feature
+        self.num_feature = 6+2#num_feature
         #self.features_dim  = features_dim
         #self.device = torch.device('cuda:0' if use_gpu else 'cpu')
         self.conv = ConvolutionBlock(self.num_feature, features_dim, kernel_size=3, padding=1)

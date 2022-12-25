@@ -1,4 +1,5 @@
 import numpy as np
 
-
-print(4 not in range(4))
+state = np.full(9*9, -1)
+EMPTY = -1
+print(state[4]!=EMPTY)
